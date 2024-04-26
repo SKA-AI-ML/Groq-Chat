@@ -1,15 +1,9 @@
-# pip install groq streamlit
-
 from groq import Groq
 import streamlit as st
-import os
-from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv())
 
 from langchain.chains import ConversationChain
 from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 from langchain_groq import ChatGroq
-from langchain.prompts import PromptTemplate
 
 
 def buildUI():
@@ -27,7 +21,6 @@ def buildUI():
 
 
 def buildAI():
-    # groq_api_key = os.getenv('GROQ_API_KEY')
     memory = ConversationBufferWindowMemory(k=st.session_state.conversation_memory_length)
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
@@ -46,7 +39,7 @@ def buildAI():
         response = conversation(prompt)
         message = {'human':prompt, 'AI':response['response']}
         st.session_state.chat_history.append(message)
-        
+
         st.session_state.messages.append({"role":"assistant", "content":response['response']})
         st.chat_message("assistant").write(response['response'])
 
